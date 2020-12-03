@@ -22,7 +22,7 @@ object Main extends App {
 		)
 		val row: Int = matrixVec.length
 		val column: Int = matrixVec(0).length
-		if (matrixVec.foldLeft(true)((b: Boolean, a: String) => b && a.length == column) && matrixVec.length == row)
+		if (matrixVec.forall(_.length == column) && matrixVec.length == row)
 			Some(new Matrix(matrixVec, row, column))
 		else {
 			None
