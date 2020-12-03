@@ -13,7 +13,6 @@ object Main extends App {
 		def get(rowInput: Int, columnInput: Int): Char =
 			// never get out of range
 			matrixVec(rowInput % row).charAt(columnInput % column)
-
 	}
 
 	def createMatrix(lines: Vector[String]): Option[Matrix] = {
