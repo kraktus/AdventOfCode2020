@@ -1,16 +1,10 @@
 import scala.io.Source
-//import scala.math.BigInt
 
 // day 3
 
 object Main extends App {
 
 	class Matrix(private var row: Int = 0, private var column: Int = 0) {
-
-		// |
-		// |
-		// |
-		// 
 
 		private var matrixArrays = Array.empty[String]
 
