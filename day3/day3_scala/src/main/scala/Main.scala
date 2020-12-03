@@ -27,7 +27,6 @@ object Main extends App {
 
 	}
 
-
 	def createMatrix(lines: Vector[String]): Matrix = {
 
 		val matrixVec: Vector[String] = lines.map(
@@ -39,20 +38,15 @@ object Main extends App {
 	}
 
 	def countTree(matrix: Matrix, xIncr: Int, yIncr: Int): Int = {
-		var acc = 0
-		var x = 0
-		var y = 0
-		while (y < matrix.getRow){
-			matrix.get(y, x) match {
-				case '#' => acc += 1
-				case _ => ()
+		(0 until matrix.getRow by yIncr).map(
+			(y: Int) => (y, y/yIncr * xIncr) // y, x
+		)
+		.foldLeft(0)(
+			(acc: Int, coord: Tuple2[Int, Int]) => matrix.get(coord._1, coord._2) match {
+				case '#' => acc + 1
+				case _ => acc
 			}
-			x += xIncr
-			y += yIncr
-		}
-		println(y,x)
-		println(acc)
-		acc
+		)
 	}
 
 	def countTreeOnMultiplePath(matrix: Matrix): BigInt =
