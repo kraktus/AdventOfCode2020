@@ -4,33 +4,38 @@ import scala.io.Source
 
 object Main extends App {
 
-	class Matrix(private var row: Int = 0, private var column: Int = 0) {
-
-		private var matrixArrays = Array.empty[String]
-
-		def addRow(line: String): Unit = {
-
-			val lineFiltered = line.filter((x: Char) => x == '#' || x == '.')
-			column = lineFiltered.length
-			matrixArrays = matrixArrays :+ lineFiltered
-			row += 1
-		}
+	class Matrix(
+		private val matrixVec: Vector[String],
+		private val row: Int,
+		private val column: Int
+	) {
 
 		def check_sanity: Boolean =
-			matrixArrays.foldLeft(true)(
+			matrixVec.foldLeft(true)(
 				(b: Boolean, a: String) => b match {
 					case true => a.length == column
 					case _ => false
 					}
-			) && matrixArrays.length == row
+			) && matrixVec.length == row
 
 		def getRow = row
 		def getColumn = column
 
 		def get(row_input: Int, column_input: Int): Char =
 			// never get out of range
-			matrixArrays(row_input % row).charAt(column_input % column)
+			matrixVec(row_input % row).charAt(column_input % column)
 
+	}
+
+
+	def createMatrix(lines: Vector[String]): Matrix = {
+
+		val matrixVec: Vector[String] = lines.map(
+			_.filter((x: Char) => x == '#' || x == '.')
+		)
+		val row: Int = matrixVec.length
+		val column: Int = matrixVec(0).length // unsafe for now
+		new Matrix(matrixVec, row, column)
 	}
 
 	def countTree(matrix: Matrix, xIncr: Int, yIncr: Int): Int = {
@@ -44,7 +49,6 @@ object Main extends App {
 			}
 			x += xIncr
 			y += yIncr
-			// println(y, y % matrix.getRow)
 		}
 		println(y,x)
 		println(acc)
@@ -54,17 +58,15 @@ object Main extends App {
 	def countTreeOnMultiplePath(matrix: Matrix): BigInt =
 		// product is too big for Int
 		List((1, 1), (3, 1), (5, 1), (7, 1), (1, 2))
-		.map(
-			(t: Tuple2[Int, Int]) =>
-			countTree(matrix, t._1, t._2)
-		)
+		.map {
+			case (a, b) => countTree(matrix, a, b)
+		}
 		.map(BigInt(_))
 		.product
 
-	val mapInput = Source.fromFile("../input_day3.txt").getLines.toList
+	val mapInput = Source.fromFile("../input_day3.txt").getLines.toVector
 	// val mapInput = Source.fromFile("../small_input.txt").getLines.toList
-	val matrixToboggan = new Matrix
-	mapInput.foreach(matrixToboggan.addRow)
+	val matrixToboggan = createMatrix(mapInput)
 	if (matrixToboggan.check_sanity) {
 		println(countTree(matrixToboggan, 3, 1)) // challenge 1
 		println(countTreeOnMultiplePath(matrixToboggan)) // challenge 2
