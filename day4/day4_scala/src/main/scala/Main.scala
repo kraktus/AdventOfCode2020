@@ -4,7 +4,7 @@ import scala.util.matching.Regex
 
 object Main extends App {
 
-	def splitByPassword(l: List[String], acc: String = ""): List[String] = l match {
+	def splitByPassport(l: List[String], acc: String = ""): List[String] = l match {
 		case "" :: tail =>  acc :: splitByPassword(tail)
 		case head :: tail => splitByPassword(tail, acc + head)
 		case _ => List(acc)
