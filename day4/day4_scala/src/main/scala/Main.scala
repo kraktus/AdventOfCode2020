@@ -39,7 +39,7 @@ object Main extends App {
  		&& isHeightOK(potentialPassport))
 
 	val rawPassportInput = Source.fromFile("../input_day4.txt").getLines.toList
-	val passportInput = splitByPassword(rawPassportInput)
+	val passportInput = splitByPassport(rawPassportInput)
 	println(passportInput count isPassport) // challenge 1
 	// not completely operational, finds 187 when it's 186 for my input
 	println(passportInput count isTruePassport) // challenge 2
