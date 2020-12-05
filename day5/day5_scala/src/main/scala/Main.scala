@@ -6,8 +6,8 @@ object Main extends App {
 
     case class Seat(row: Int, column: Int)
 
-    def readFile(line: List[Char]): Option[Seat] = {
-        line.splitAt(7) match {
+    def readFile(line: String): Option[Seat] = {
+        line.toList.splitAt(7) match {
             case (rowPart, columnPart) =>
                 for {
                     row <- dichotomy(rowPart, 0, 127)
@@ -35,8 +35,7 @@ object Main extends App {
     }
 
     val input = Source.fromFile("../input_day5.txt").getLines.toList
-    // can't use flatmap on List[List[Char]]
-    val seatList: List[Seat] = input.map(_.toList).map(readFile _).flatten
+    val seatList: List[Seat] = input.flatMap(readFile _)
     val seatIds: List[Int] = seatList.map {case Seat(y, x) => y*8 + x}
     println(seatIds.max) // challenge 1
     val sortedSeatIds = seatIds.sorted
