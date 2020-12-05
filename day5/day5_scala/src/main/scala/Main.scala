@@ -27,7 +27,6 @@ object Main extends App {
 		}
 
 	def missingSeat(sortedSeatIds: List[Int]): Option[Int] = {
-		println(sortedSeatIds.head)
 		sortedSeatIds match {
 			case x :: y :: tail if y == x + 1 => missingSeat(y :: tail)
 			case x :: y :: _ if y == x + 2 => Some(x+1)
