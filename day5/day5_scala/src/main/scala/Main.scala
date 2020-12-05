@@ -35,7 +35,7 @@ object Main extends App {
     }
 
     val input = Source.fromFile("../input_day5.txt").getLines.toList
-    val seatList: List[Seat] = input.flatMap(readFile _)
+    val seatList: List[Seat] = input flatMap readFile
     val seatIds: List[Int] = seatList.map {case Seat(y, x) => y*8 + x}
     println(seatIds.max) // challenge 1
     val sortedSeatIds = seatIds.sorted
