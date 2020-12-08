@@ -15,8 +15,8 @@ object Main extends App {
         if (linesAlreadyDone.contains(lineIndex)) return acc
         lines(lineIndex) match {
             case s"nop ${dig}" => challenge1(lineIndex + 1, lines, acc, linesAlreadyDone + lineIndex)
-            case s"acc ${dig}" => challenge1(lineIndex + 1, lines, acc + dig.toInt, linesAlreadyDone + lineIndex)
-            case s"jmp ${dig}" => challenge1(lineIndex + dig.toInt, lines, acc, linesAlreadyDone + lineIndex)
+            case s"acc ${dig}" => challenge1(lineIndex + 1, lines, acc + dig.toIntOption.getOrElse(0), linesAlreadyDone + lineIndex)
+            case s"jmp ${dig}" => challenge1(lineIndex + dig.toIntOption.getOrElse(0), lines, acc, linesAlreadyDone + lineIndex)
             case _ => 0
         }
     }  
@@ -26,16 +26,16 @@ object Main extends App {
         else if (lineIndex == lines.length) return Some(acc)
         lines(lineIndex) match {
             case s"nop ${dig}" => innerChallenge2(lineIndex + 1, lines, acc, linesAlreadyDone + lineIndex)
-            case s"acc ${dig}" => innerChallenge2(lineIndex + 1, lines, acc + dig.toInt, linesAlreadyDone + lineIndex)
-            case s"jmp ${dig}" => innerChallenge2(lineIndex + dig.toInt, lines, acc, linesAlreadyDone + lineIndex)
+            case s"acc ${dig}" => innerChallenge2(lineIndex + 1, lines, acc + dig.toIntOption.getOrElse(0), linesAlreadyDone + lineIndex)
+            case s"jmp ${dig}" => innerChallenge2(lineIndex + dig.toIntOption.getOrElse(0), lines, acc, linesAlreadyDone + lineIndex)
             case _ => None
         }
     }
 
     def challenge2(lines: Vector[String], line: String, index: Int): Option[Int] = 
         line match {
-            case s"nop ${dig}" => innerChallenge2(0, lines.updated(index, pp(s"jmp ${dig}")), 0)
-            case s"jmp ${dig}" => innerChallenge2(0, lines.updated(index, pp(s"nop ${dig}")), 0)
+            case s"nop ${dig}" => innerChallenge2(0, lines.updated(index, s"jmp ${dig}"), 0)
+            case s"jmp ${dig}" => innerChallenge2(0, lines.updated(index, s"nop ${dig}"), 0)
             case _ => None
         }
 
