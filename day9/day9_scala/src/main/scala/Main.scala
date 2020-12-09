@@ -16,16 +16,13 @@ object Main extends App {
     def challenge1(l: List[Int]): Boolean = 
         cartesianAutoProduct(l.init).filter{case (a, b) => a + b == l.lastOption.getOrElse(0) && a != b}.isEmpty
 
-    def challenge2(l: List[Int], targetNumber: Int): Option[Int] = {
-        for (i <- 0 until l.length){
-            for (j <- i until l.length){
-                l.slice(i,j) match {
-                    case m if m.sum == targetNumber => return Some(m.min + m.max)
-                    case _ => None // discared anyway
-                }
-            }
+    def challenge2(l: List[Int], targetNumber: Int, lowerBound: Int = 0, upperBound: Int = 1): Option[Int] = {
+        val slicedList =  l.slice(lowerBound,upperBound)
+        slicedList.sum match {
+            case m if m == targetNumber => return Some(slicedList.min + slicedList.max)
+            case m if m < targetNumber => challenge2(l, targetNumber, lowerBound, upperBound + 1)
+            case _ => challenge2(l, targetNumber, lowerBound + 1, upperBound) // m > targetNumber
         }
-        None
     }
 
     val cypherInput = Source.fromFile("../input_day9.txt").getLines.flatMap(_.toIntOption).toList
