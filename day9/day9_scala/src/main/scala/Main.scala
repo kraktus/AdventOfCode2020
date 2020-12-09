@@ -14,8 +14,7 @@ object Main extends App {
     }
 
     def challenge1(l: List[Int]): Boolean = 
-        cartesianAutoProduct(l.init).filter{case (a, b) => a != b}
-        .filter{case (a, b) => a + b == l.lastOption.getOrElse(0)}.isEmpty
+        cartesianAutoProduct(l.init).filter{case (a, b) => a + b == l.lastOption.getOrElse(0) && a != b}.isEmpty
 
     def challenge2(l: List[Int], targetNumber: Int): Option[Int] = {
         for (i <- 0 until l.length){
