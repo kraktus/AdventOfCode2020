@@ -17,9 +17,10 @@ object Main extends App {
         cartesianAutoProduct(l.init).filter{case (a, b) => a + b == l.lastOption.getOrElse(0) && a != b}.isEmpty
 
     def challenge2(l: List[Int], targetNumber: Int, lowerBound: Int = 0, upperBound: Int = 1): Option[Int] = {
+        if (upperBound < lowerBound) return None // Something went wrong
         val slicedList =  l.slice(lowerBound,upperBound)
         slicedList.sum match {
-            case m if m == targetNumber => return Some(slicedList.min + slicedList.max)
+            case m if m == targetNumber => Some(slicedList.min + slicedList.max)
             case m if m < targetNumber => challenge2(l, targetNumber, lowerBound, upperBound + 1)
             case _ => challenge2(l, targetNumber, lowerBound + 1, upperBound) // m > targetNumber
         }
